@@ -7,7 +7,7 @@ def index(request):
     return render(request, 'mainapp/index.html')
 # коментарий для того чтобы новая ветвь отличалась от master
 
-def products(request):
+def products(request, id=None):
     context = {
         'products': Product.objects.all(),
         'categories': ProductCategory.objects.all(),
