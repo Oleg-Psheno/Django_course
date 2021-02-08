@@ -49,9 +49,9 @@ def profile(request):
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
         form = UserProfileForm(instance=request.user)
+
     context ={
         'form': form,
         'baskets': Basket.objects.filter(user=request.user),
-
-              }
+    }
     return render(request, 'authapp/profile.html', context)
