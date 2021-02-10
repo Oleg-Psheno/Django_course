@@ -1,10 +1,11 @@
 
 from django.shortcuts import render, HttpResponseRedirect
 from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
-from authapp.models import User
+# from authapp.models import Basket
 from basket.models import Basket
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -28,6 +29,7 @@ def register(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Вы успешно зарегистрировались!')
             return HttpResponseRedirect(reverse('auth:login'))
         else:
             print(form.errors)
@@ -40,6 +42,7 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
 
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
@@ -48,9 +51,9 @@ def profile(request):
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
         form = UserProfileForm(instance=request.user)
+
     context ={
         'form': form,
         'baskets': Basket.objects.filter(user=request.user),
-
-              }
+    }
     return render(request, 'authapp/profile.html', context)
