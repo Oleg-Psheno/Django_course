@@ -77,3 +77,19 @@ def send_verify_mail(user):
     message = f'Для подтверждения учетной записи {user.username} на портале {settings.DOMAIN_NAME} ' \
               f'перейдите по ссылке \n {settings.DOMAIN_NAME}{verify_link}'
     return send_mail(title,message,settings.EMAIL_HOST_USER, [user.email],fail_silently=False)
+
+
+def verify(request, email, activation_key):
+    try:
+        user = User.objects.get(email=email)
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.save()
+            auth.login(request, user)
+            return render(request, 'authapp/verification.html')
+        else:
+            print(f'Ошибка активации пользователя не искл {user}')
+            return render(request, 'authapp/verification.html')
+    except Exception as e:
+        print(f'Ошибка активации пользователя: {e.args}')
+        return HttpResponseRedirect(reverse('auth:profile'))

@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0J/QvtC00YLQstC10YDQttC00LXQvdC40LUg0YPRh9C10YLQvdC+0Lkg0LfQsNC/?=
+ =?utf-8?b?0LjRgdC4IHNkZmdmMTI=?=
+From: django@geekshop.local
+To: sdfgf12@nn.ru
+Date: Sun, 14 Mar 2021 21:36:23 -0000
+Message-ID: <161575778302.3124.12358121743586374190@MacBook-Pro-Oleg.local>
+
+Для подтверждения учетной записи sdfgf12 на портале http://localhost:8000 перейдите по ссылке 
+ http://localhost:8000/auth/verify/sdfgf12@nn.ru/ad6efee6eaf2b7005db2c46151b99695147795cd/
+-------------------------------------------------------------------------------
