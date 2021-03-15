@@ -72,17 +72,17 @@ def profile(request):
     return render(request, 'authapp/profile.html', context)
 
 def send_verify_mail(user):
-    verify_link = reverse('auth:verify', args=[user.email, user.activation_key])
+    verify_link = reverse('auth:verify', args=[user.id, user.activation_key])
     title = f'Подтверждение учетной записи {user.username}'
     message = f'Для подтверждения учетной записи {user.username} на портале {settings.DOMAIN_NAME} ' \
               f'перейдите по ссылке \n {settings.DOMAIN_NAME}{verify_link}'
     return send_mail(title,message,settings.EMAIL_HOST_USER, [user.email],fail_silently=False)
 
 
-def verify(request, email, activation_key):
+def verify(request, user_id, hash):
     try:
-        user = User.objects.get(email=email)
-        if user.activation_key == activation_key and not user.is_activation_key_expired():
+        user = User.objects.get(pk=user_id)
+        if user.activation_key == hash and not user.is_activation_key_expired():
             user.is_active = True
             user.save()
             auth.login(request, user)
