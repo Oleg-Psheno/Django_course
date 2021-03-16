@@ -19,7 +19,7 @@ def login(request):
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
-                auth.login(request, user)
+                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return HttpResponseRedirect(reverse('index'))
     else:
         form = UserLoginForm()
@@ -76,7 +76,7 @@ def verify(request, user_id, hash):
         if user.activation_key == hash and not user.is_activation_key_expired():
             user.is_active = True
             user.save()
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return render(request, 'authapp/verification.html')
         else:
             return render(request, 'authapp/verification.html')
