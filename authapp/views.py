@@ -33,23 +33,14 @@ def register(request):
         if form.is_valid():
             user = form.save()
             if send_verify_mail(user):
-                print('Сообщение подтверждения отправлено')
                 return HttpResponseRedirect(reverse('auth:login'))
             else:
-                print('ошибка отправки сообщения')
                 return HttpResponseRedirect(reverse('auth:login'))
     else:
         form = UserRegisterForm()
     context = {'form': form}
     return render(request, 'authapp/register.html', context)
-    #         messages.success(request, 'Вы успешно зарегистрировались!')
-    #         return HttpResponseRedirect(reverse('auth:login'))
-    #     else:
-    #         print(form.errors)
-    # else:
-    #     form = UserRegisterForm()
-    # context = {'form': form}
-    # return render(request, 'authapp/register.html', context)
+
 
 def logout(request):
     auth.logout(request)
@@ -88,8 +79,6 @@ def verify(request, user_id, hash):
             auth.login(request, user)
             return render(request, 'authapp/verification.html')
         else:
-            print(f'Ошибка активации пользователя не искл {user}')
             return render(request, 'authapp/verification.html')
     except Exception as e:
-        print(f'Ошибка активации пользователя: {e.args}')
         return HttpResponseRedirect(reverse('auth:profile'))
