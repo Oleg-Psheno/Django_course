@@ -28,7 +28,7 @@ class Order(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='активен')
 
     class Meta:
-        ordering = ('-created')
+        ordering = ('-created',)
         verbose_name = 'заказ'
         verbose_name_plural = 'заказы'
 
