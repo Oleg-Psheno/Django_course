@@ -6,5 +6,5 @@ app_name='ordersapp'
 
 urlpatterns = [
     path('', views.OrderList.as_view(), name='order_list'),
-
+    path('create/', views.CreateView.as_view(), name='order_create'),
 ]
