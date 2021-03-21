@@ -42,7 +42,8 @@ class Order(models.Model):
 
     def get_total_cost(self):
         items = self.orderitems.select_related()
-        return sum(list(map(lambda x: x.product_cost(),items))) # TODO проверить возможна ошибка
+        # return sum(list(map(lambda x: x.product_cost(),items))) # TODO проверить возможна ошибка
+        return sum(list(map(lambda x: x.quantity*x.product.price, items)))
 
     def get_total_type_quantity(self):
         return len(self.orderitems.select_related())
@@ -61,6 +62,6 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
     quantity = models.IntegerField(default=0,verbose_name='количество')
 
-    def product_cost(self):
+    def get_product_cost(self):
         return self.quantity * self.product.price
 

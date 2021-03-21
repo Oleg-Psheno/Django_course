@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404,HttpResponseRedirect
 from django.urls import reverse,reverse_lazy
 from django.views.generic import ListView, CreateView
 from .models import Order, OrderItem
@@ -27,8 +27,8 @@ class OrderItemsCreate(CreateView):
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
         else:
-            # basket_items = Basket.objects.filter(user = self.request.user)
-            basket_items = Basket.get_items(self.request.user)
+            basket_items = Basket.objects.filter(user=self.request.user)
+            print(basket_items)
             if len(basket_items):
                 OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=len(basket_items))
                 formset = OrderFormSet()
