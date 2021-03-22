@@ -34,7 +34,9 @@
                         <p class="float-left">Итого</p>
                         <h4 class="float-right">{{ baskets.0.total_sum}} руб.</h4>
                     </div>
-            <button type="button" class="btn btn-success btn-lg float-right">Оформить</button>
+            <a href="{% url 'orderapp:order_create' %}">
+                <button type="button" class="btn btn-success btn-lg float-right">Оформить</button>
+            </a>
             </div>
 
 {% else %}

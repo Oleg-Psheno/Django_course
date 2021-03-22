@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404,HttpResponseRedirect
 from django.urls import reverse,reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Order, OrderItem
 from .forms import OrderItemForm
 from basket.models import Basket
@@ -28,7 +28,6 @@ class OrderItemsCreate(CreateView):
             formset = OrderFormSet(self.request.POST)
         else:
             basket_items = Basket.objects.filter(user=self.request.user)
-            print(basket_items)
             if len(basket_items):
                 OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=len(basket_items))
                 formset = OrderFormSet()
@@ -59,8 +58,55 @@ class OrderItemsCreate(CreateView):
         return super(OrderItemsCreate, self).form_valid(form)
 
 
+class OrderItemsUpdate(UpdateView):
+    model = Order
+    fields = []
+    success_url = reverse_lazy('orderapp:order_list')
+
+    def get_context_data(self, **kwargs):
+        data = super(OrderItemsUpdate, self).get_context_data(**kwargs)
+        OrderFormSet = inlineformset_factory(Order,OrderItem,form=OrderItemForm, extra=1)
+
+        if self.request.POST:
+            data['orderitems'] = OrderFormSet(self.request.POST, instance=self.object)
+        else:
+            data['orderitems'] = OrderFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        orderitems = context['orderitems']
+
+        with atomic():
+            self.object = form.save()
+            if orderitems.is_valid():
+                orderitems.instance = self.object
+                orderitems.save()
+
+        if self.object.get_total_cost() == 0:
+            self.object.delete()
+
+        return super(OrderItemsUpdate, self).form_valid(form)
 
 
+class OrderDelete(DeleteView):
+    model = Order
+    success_url = reverse_lazy('orderapp:order_list')
+
+class OrderRead(DetailView):
+    model = Order
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderRead, self).get_context_data(**kwargs)
+        context['title'] = 'заказ/просморт'
+        return context
+
+
+def order_forming_complete(request,pk):
+    order = get_object_or_404(Order,pk=pk)
+    order.status = Order.SENT_TO_PROCEED
+    order.save()
+    return HttpResponseRedirect(reverse('orderapp:order_list'))
 
 
 
