@@ -1,6 +1,7 @@
 media/**
 .idea
 __pycache__/
+geekshop/vk.json
 tmp
 db.sqlite3
 .DS_Store
