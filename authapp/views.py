@@ -1,7 +1,6 @@
 
 from django.shortcuts import render, HttpResponseRedirect
 from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, ShopUserProfileEditForm
-# from authapp.models import Basket
 from basket.models import Basket
 from django.contrib import auth, messages
 from django.urls import reverse
