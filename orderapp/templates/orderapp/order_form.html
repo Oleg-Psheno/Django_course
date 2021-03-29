@@ -1,9 +1,10 @@
-{% extends "orderapp/base.html" %}
+{% extends "mainapp/base.html" %}
 {% load static %}
 
 {% block content %}
-   {% include 'orderapp/includes/inc_order_summary.html' %}
-   <div class="order_form">
+   <div class="container">
+        {% include 'orderapp/includes/inc_order_summary.html' %}
+        <div class="order_form">
        <form action="" method="post">
            {% csrf_token %}
            {{ form.as_p }}
@@ -40,5 +41,7 @@
            {% include 'orderapp/includes/inc_order_actions.html' %}
        </form>
    </div>
+   </div>
+
 
 {% endblock %}

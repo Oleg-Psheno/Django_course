@@ -1,8 +1,8 @@
-{% extends 'orderapp/base.html' %}
+{% extends 'mainapp/base.html' %}
 {% load staticfiles %}
 
 {% block content %}
-   <div class="category_delete">
+   <div class="category_delete container">
        <div class="h1">Уверены, что хотите удалить?</div>
        {% include 'orderapp/includes/inc_order_summary.html' %}
        <form action="{% url 'orderapp:order_delete' object.pk %}" method="post">

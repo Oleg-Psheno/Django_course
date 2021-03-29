@@ -48,6 +48,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'orderapp:order_list' %}">Заказы пользователя
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'auth:logout' %}">Выйти <i class="fas fa-sign-out-alt"></i></a>
                     </li>
                     {% if user.is_superuser or user.is_staff %}

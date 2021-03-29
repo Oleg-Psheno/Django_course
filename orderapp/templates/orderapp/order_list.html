@@ -1,21 +1,43 @@
-{% extends 'orderapp/base.html' %}
+{% extends 'mainapp/base.html' %}
 
 {% block content %}
-    <h1>Заказы</h1>
-    <h3>Заказы пользователя {{ user.first_name }}</h3>
-    <hr>
-    {% for item in object_list %}
 
-        <div>
+    <div class="container" style="padding-top: 56px">
+
+        <div class="row">
+            <div class="col-lg-9">
+                <h3 class="my-5">Заказы пользователя {{ user.first_name }}</h3>
+                <div class="col-8">
+                    <table class="table table-striped">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Ссылка</th>
+        </tr>
+        {% for item in object_list %}
             {% if item.is_active %}
-                <hr>
-                <p>{{ item.id }}</p>
-                <p>Статус заказа {{ item.status }}</p>
-                <a href="{% url 'orderapp:order_detail' item.id %}">ссылка</a>
-                <hr>
+            <tr>
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.get_status_display }}</td>
+            <td><a href="{% url 'orderapp:order_detail' item.id %}">ссылка</a></td>
+            </tr>
             {% endif %}
+        {% endfor %}
+
+    </table>
+                </div>
+
+            </div>
         </div>
+    </div>
 
+{% endblock %}
 
-    {% endfor %}
+{% block footer %}
+    <footer class="py-5 bg-dark fixed-bottom">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; GeekShop 2020</p>
+    </div>
+    <!-- /.container -->
+</footer>
 {% endblock %}

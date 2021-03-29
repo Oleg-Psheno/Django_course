@@ -1,10 +1,11 @@
-{% extends "orderapp/base.html" %}
+{% extends "mainapp/base.html" %}
 {% load staticfiles %}
 {#{% load my_tags %}#}
 
 {% block content %}
-   {% include 'orderapp/includes/inc_order_summary.html' %}
-   <div class="basket_list">
+    <div class="container">
+        {% include 'orderapp/includes/inc_order_summary.html' %}
+        <div class="basket_list">
        {% for item in object.orderitems.select_related %}
            <div class="basket_record">
                <img class="card_ord" style="width: 100px" src="/media/{{item.product.image}}"
@@ -25,6 +26,8 @@
            </div>
        {% endfor %}
    </div>
-   {% include 'orderapp/includes/inc_order_actions.html' %}
+        {% include 'orderapp/includes/inc_order_actions.html' %}
+    </div>
+
 
 {% endblock %}
