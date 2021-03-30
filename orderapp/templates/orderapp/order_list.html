@@ -1,0 +1,21 @@
+{% extends 'orderapp/base.html' %}
+
+{% block content %}
+    <h1>Заказы</h1>
+    <h3>Заказы пользователя {{ user.first_name }}</h3>
+    <hr>
+    {% for item in object_list %}
+
+        <div>
+            {% if item.is_active %}
+                <hr>
+                <p>{{ item.id }}</p>
+                <p>Статус заказа {{ item.status }}</p>
+                <a href="{% url 'orderapp:order_detail' item.id %}">ссылка</a>
+                <hr>
+            {% endif %}
+        </div>
+
+
+    {% endfor %}
+{% endblock %}
