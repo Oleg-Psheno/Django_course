@@ -5,7 +5,8 @@ from django.views.decorators.cache import cache_page
 
 @cache_page(10)
 def index(request):
-    return render(request, 'mainapp/index.html')
+    context = {'title':'Главная'}
+    return render(request, 'mainapp/index.html', context)
 
 
 # def products(request, category_id=None):
