@@ -18,6 +18,7 @@ from django.urls import path, include
 from mainapp import views as mainapp_views
 from django.conf import settings
 from django.conf.urls.static import static
+import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +28,8 @@ urlpatterns = [
     path('baskets/', include('basket.urls', namespace='baskets')),
     path('admin-staff/', include('adminapp.urls', namespace='admins')),
     path('',include('social_django.urls', namespace = 'social')),
-    path('order/', include('orderapp.urls', namespace='orders'))
+    path('order/', include('orderapp.urls', namespace='orders')),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:
