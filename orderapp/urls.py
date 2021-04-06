@@ -1,11 +1,12 @@
 from django.urls import path, re_path
 from orderapp import views
+from django.views.decorators.cache import cache_page
 
 
 app_name='orderapp'
 
 urlpatterns = [
-    path('', views.OrderList.as_view(), name='order_list'),
+    path('', cache_page(20)(views.OrderList.as_view()), name='order_list'),
     path('create/', views.OrderItemsCreate.as_view(), name='order_create'),
     path('update/<int:pk>/', views.OrderItemsUpdate.as_view(), name='order_update'),
     path('delete/<int:pk>/', views.OrderDelete.as_view(), name='order_delete'),

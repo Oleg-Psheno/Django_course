@@ -12,14 +12,18 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Статус</th>
-            <th scope="col">Ссылка</th>
+            <th scope="col">Посмотреть</th>
+            <th scope="col">Обновить</th>
+            <th scope="col">Удалить</th>
         </tr>
         {% for item in object_list %}
             {% if item.is_active %}
             <tr>
             <th scope="row">{{ item.id }}</th>
             <td>{{ item.get_status_display }}</td>
-            <td><a href="{% url 'orderapp:order_detail' item.id %}">ссылка</a></td>
+            <td><a href="{% url 'orderapp:order_detail' item.id %}">Ссылка</a></td>
+            <td><a href="{% url 'orderapp:order_update' item.id %}">Редактировать</a></td>
+            <td><a href="{% url 'orderapp:order_delete' item.id %}">Удалить</a></td>
             </tr>
             {% endif %}
         {% endfor %}
