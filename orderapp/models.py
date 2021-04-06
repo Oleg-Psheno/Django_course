@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 
 from authapp.models import User
 from mainapp.models import Product
@@ -42,7 +43,6 @@ class Order(models.Model):
 
     def get_total_cost(self):
         items = self.orderitems.select_related()
-        # return sum(list(map(lambda x: x.product_cost(),items))) # TODO проверить возможна ошибка
         return sum(list(map(lambda x: x.quantity*x.product.price, items)))
 
     def get_total_type_quantity(self):
@@ -50,7 +50,7 @@ class Order(models.Model):
 
     def delete(self):
         for item in self.orderitems.select_related():
-            item.product.quantity += item.quantity
+            item.product.quantity = F('quantity') + item.quantity
             item.product.save()
 
         self.is_active = False
