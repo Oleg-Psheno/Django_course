@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from mainapp.models import Product, ProductCategory
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.cache import cache_page
 
-# Create your views here.
-
+@cache_page(10)
 def index(request):
     return render(request, 'mainapp/index.html')
 
@@ -25,7 +25,7 @@ def products(request, category_id=None, page=1):
     paginator = Paginator(products, per_page)
     products_paginator = paginator.page(page)
     context = {
-        'categories': ProductCategory.objects.all(),
+        'categories': ProductCategory.get_all(),
         'products': products_paginator
     }
     return render(request, 'mainapp/products.html', context)

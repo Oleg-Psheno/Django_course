@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404,HttpResponseRedirect
 from django.urls import reverse,reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.http import JsonResponse
+from django.views.decorators.cache import cache_page
 
 from mainapp.models import Product
 from .models import Order, OrderItem
@@ -117,6 +118,7 @@ def order_forming_complete(request,pk):
     return HttpResponseRedirect(reverse('orderapp:order_list'))
 
 
+@cache_page(120)
 def get_product_price(request,pk):
     if request.is_ajax():
         product = Product.objects.filter(pk = int(pk)).first()
